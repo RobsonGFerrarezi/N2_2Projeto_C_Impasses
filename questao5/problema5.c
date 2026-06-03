@@ -5,13 +5,16 @@
 pthread_mutex_t A = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t B = PTHREAD_MUTEX_INITIALIZER;
 
-void processar(int nivel) {
-    if (nivel == 0) return;
+void processar(int nivel)
+{
+    if (nivel == 0)
+        return;
 
     pthread_mutex_lock(&A);
     usleep(1000);
 
-    if (nivel % 2 == 0) {
+    if (nivel % 2 == 0)
+    {
         pthread_mutex_lock(&B);
         pthread_mutex_unlock(&B);
     }
@@ -20,12 +23,14 @@ void processar(int nivel) {
     pthread_mutex_unlock(&A);
 }
 
-void* thread1(void* arg) {
+void *thread1(void *arg)
+{
     processar(2);
     return NULL;
 }
 
-void* thread2(void* arg) {
+void *thread2(void *arg)
+{
     pthread_mutex_lock(&B);
     usleep(1000);
     pthread_mutex_lock(&A);
@@ -34,7 +39,8 @@ void* thread2(void* arg) {
     return NULL;
 }
 
-int main() {
+int main()
+{
     pthread_t th1, th2;
     pthread_create(&th1, NULL, thread1, NULL);
     pthread_create(&th2, NULL, thread2, NULL);
